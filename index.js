@@ -26,14 +26,22 @@ const formatStreamUrl = (postName, blvId, baseUrl) => {
     return `${baseUrl}truc-tiep/${postName}/?blv=${blvId}`;
 }
 const formatStatus = (statusId) => {
-    switch (String(statusId)) {
-        case '0': return 'Upcoming';
-        case '1': return 'Live';
-        case '2': return 'Live';
-        case '8': return 'Finished';
-        case '9': return 'Cancelled';
-        default: return 'Unknown';
-    }
+    const statusStr = String(statusId);
+    switch (statusStr) {
+        case '0': return 'Upcoming';
+        case '1': // First half
+        case '2': // Half time
+        case '3': // Second half
+        case '4': // Second half (ဒါက သင့်ဆီမှာ ဖြစ်နေတာ)
+        case '5': // Over time
+        case '6': // Over time break
+        case '7': // Penalty shootout
+            return 'Live'; // ဒီ case တွေ အားလုံးကို "Live" လို့ ပြန်ပေးမယ်
+        case '8': return 'Finished';
+        case '9': return 'Cancelled';
+        case '10': return 'Postponed'; // ဥပမာ ထပ်ထည့်နိုင်
+        default: return `Unknown (${statusStr})`; // မသိရင် ID ပါ ပြပေးမယ်
+    }
 };
 
 const fetchFromSources = async () => {
